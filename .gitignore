@@ -1,0 +1,32 @@
+# Build directories
+build/
+Build/
+*/build/
+*/Build/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+# Generated files
+*.so
+*.a
+*.lib
+*.dll
+*.exe
+*.app
+
+# IDE files (Visual Studio, Xcode, etc.)
+.vs/
+*.sln
+*.vcxproj*
+*.user
+x64/
+x86/
+Debug/
+Release/
