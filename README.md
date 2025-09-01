@@ -38,7 +38,7 @@ C++17 compatible compiler
 
 ```
 git clone https://github.com/KirillVishnyakov/Simple-Ray-Tracer-w-SDL3-and-OpenCL.git
-cd RayTracer
+cd Simple-Ray-Tracer-w-SDL3-and-OpenCL
 mkdir build
 cd build
 ```
