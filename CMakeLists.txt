@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.21)
 project(RayTracer LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -14,6 +14,7 @@ target_include_directories(RayTracer PRIVATE
     include/
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
 
 # Find SDL3
 find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3-shared)
@@ -34,6 +35,14 @@ add_custom_command(
     COMMENT "Embedding OpenCL kernels"
 )
 
+add_custom_command(TARGET RayTracer POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_RUNTIME_DLLS:RayTracer>
+        $<TARGET_FILE_DIR:RayTracer>
+    COMMAND_EXPAND_LISTS
+    VERBATIM
+    COMMENT "Copying runtime DLLs to build directory"
+)
 target_sources(RayTracer PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/embedded_kernels.h)
 target_include_directories(RayTracer PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
