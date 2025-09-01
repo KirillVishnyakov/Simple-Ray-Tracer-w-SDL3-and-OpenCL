@@ -1,4 +1,4 @@
-# Simple-Ray-Tracer-w-SDL3-and-OpenCL
+# Simple Ray Tracer with SDL3 and OpenCL
 
 
 A really simple path tracer implementation based on "Ray Tracing in a Weekend" built with SDL3 and OpenCL for GPU acceleration. This is a learning project focused on understanding the fundamentals of ray tracing and GPU computing.<br>
