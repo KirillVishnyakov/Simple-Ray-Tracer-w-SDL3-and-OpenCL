@@ -1,1 +1,1 @@
-these build the cmake project, in case your openCL and SDL3 installations are also broken, you can edit the .bat files.
+these build the cmake project, in case your openCL and SDL3 installations are also broken, you should edit the .bat files.
