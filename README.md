@@ -15,7 +15,7 @@ https://github.com/user-attachments/assets/5ccba220-dcde-4cde-b0c9-9b12bcaee2d0
 
 ## Features
 
-* GPU-accelerated path tracing using OpenCL
+* GPU-accelerated path tracing using OpenCL C
 
 * Real-time rendering with SDL3
 
@@ -36,24 +36,26 @@ C++17 compatible compiler
 
 ## Building and Running
 
-`git clone` [https://github.com/your-username/reallysimple-pathtracer.git](https://github.com/KirillVishnyakov/Simple-Ray-Tracer-w-SDL3-and-OpenCL.git)<br>
-`cd RayTracer`
-
+```
+git clone https://github.com/KirillVishnyakov/Simple-Ray-Tracer-w-SDL3-and-OpenCL.git
+cd RayTracer
 mkdir build
-`cd build`
-
+cd build
+```
 #### If libraries are installed in standard locations (SDL3 and openCL)
 `cmake ..`
-
 #### If libraries are in custom locations, example:
 `cmake .. -DCMAKE_PREFIX_PATH="C:/OpenCL/OpenCL-SDK/install;C:/SDL3"`
-
 #### create exe for config or release
-`cmake --build . --config Release  `<br>
-`cmake --build . --config Debug  `  
+```
+cmake --build . --config Release  
+cmake --build . --config Debug
+``` 
 
 #### or cd Debug
-`cd Release `<br>
-`./RayTracer.exe`
+```
+cd Release 
+./RayTracer.exe
+```
 
 
