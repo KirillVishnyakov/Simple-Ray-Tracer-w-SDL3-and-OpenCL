@@ -6,7 +6,7 @@
 
 class render {
 
-	camera cam;
+	
 	int m_width;
 	int m_height;
 
@@ -15,7 +15,7 @@ class render {
 	double aspectRatio = 16.0 / 9.0;
 
 public:
-
+	camera cam;
 	struct CameraState {
 		cl_float3 pixel00;
 		cl_float3 delta_u;
@@ -46,9 +46,21 @@ public:
 	SphereInfo sphereOneInfo;
 	SphereInfo sphereTwoInfo;
 	
-		render(int width, int height, int camX = 0, int camY = 0, int camZ = 1) : m_width{ width }, m_height{height} {
+		render(int width, int height, float camX = 0, float camY = 0.9, float camZ = 1) : m_width{ width }, m_height{height} {
 			cam.aspect_ratio = aspectRatio;
 			cam.image_width = width;
+
+
+			
+
+
+			cam.lookfrom = point3D(camX, camY, camZ);
+			cam.lookat = point3D(0.0, 0.0, -1);
+
+
+			cam.initialize();
+			buildCamStruct();
+
 
 			point3D sphereCenterOne = point3D(0, -200.5, -3.2);
 			float r1 = 199;
@@ -56,15 +68,25 @@ public:
 
 			point3D sphereCenterTwo = point3D(0, -0.6, -3.2);
 			float r2 = 1;
+			//sphere1
+			sphereOneInfo.m_center.x = sphereCenterOne.x();
+			sphereOneInfo.m_center.y = sphereCenterOne.y();
+			sphereOneInfo.m_center.z = sphereCenterOne.z();
+			sphereOneInfo.m_radius = r1;
+			sphereOneInfo.objID = 1;
+
+			//sphere2
+			sphereTwoInfo.m_center.x = sphereCenterTwo.x();
+			sphereTwoInfo.m_center.y = sphereCenterTwo.y();
+			sphereTwoInfo.m_center.z = sphereCenterTwo.z();
+			sphereTwoInfo.m_radius = r2;
+			sphereTwoInfo.objID = 2;
 			
+	
+		}
 
+		void buildCamStruct() {
 
-			cam.lookfrom = point3D(camX, camY, camZ);
-			cam.lookat = point3D(0, 0, -1);
-			cam.initialize();
-
-
-			
 			cameraInfo.pixel00.x = (float)cam.pixel_00.x();
 			cameraInfo.pixel00.y = (float)cam.pixel_00.y();
 			cameraInfo.pixel00.z = (float)cam.pixel_00.z();
@@ -80,24 +102,5 @@ public:
 			cameraInfo.camera_center.x = (float)cam.camera_center.x();
 			cameraInfo.camera_center.y = (float)cam.camera_center.y();
 			cameraInfo.camera_center.z = (float)cam.camera_center.z();
-
-			//sphere1
-			sphereOneInfo.m_center.x = sphereCenterOne.x();
-			sphereOneInfo.m_center.y = sphereCenterOne.y();
-			sphereOneInfo.m_center.z = sphereCenterOne.z();
-			sphereOneInfo.m_radius = r1;
-			sphereOneInfo.objID = 1;
-
-			//sphere2
-			sphereTwoInfo.m_center.x = sphereCenterTwo.x();
-			sphereTwoInfo.m_center.y = sphereCenterTwo.y();
-			sphereTwoInfo.m_center.z = sphereCenterTwo.z();
-			sphereTwoInfo.m_radius = r2;
-			sphereTwoInfo.objID = 2;
-
-			//std::cout << sphereOneInfo.m_center.x << ", " << sphereOneInfo.m_center.y << ", " << sphereOneInfo.m_center.z << ", " << sphereOneInfo.m_radius << "\n";
-			//std::cout << sphereTwoInfo.m_center.x << ", " << sphereTwoInfo.m_center.y << ", " << sphereTwoInfo.m_center.z << ", " <<  sphereTwoInfo.m_radius << "\n";
-			
-	
 		}
 };
