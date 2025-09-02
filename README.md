@@ -25,7 +25,7 @@ https://github.com/user-attachments/assets/36281512-b9e5-4917-ad86-b84a4c59c443
 * Progressive rendering with accumulating samples
 
 ## Prerequisites
-CMake (version 3.15 or higher)
+CMake (version 3.21 or higher)
 
 C++17 compatible compiler
 
