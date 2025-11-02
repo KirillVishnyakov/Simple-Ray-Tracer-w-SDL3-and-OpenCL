@@ -14,73 +14,63 @@
 #include "sdlUtils.h"
 
 
-SDL_AppResult SDL_AppInit(void** appstate, int argc, char** argv){
-    
+SDL_AppResult SDL_AppInit(void** appstate, int argc, char** argv) {
     auto* state = new AppState;
-    
+
     state->window = SDL_CreateWindow("Ray Tracer", state->width * state->widthCorrector, state->height * state->heightCorrector, 0);
     state->renderer = SDL_CreateRenderer(state->window, nullptr);
     state->texture = SDL_CreateTexture(state->renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, state->width, state->height);
     state->pixels.resize(state->width * state->height * 3);
-
+    cl::Program program;
     try {
         std::vector<cl::Platform> platforms;
         cl::Platform::get(&platforms);
-
         if (platforms.empty()) {
-            std::cerr << "No OpenCL platforms found!" << std::endl;
+            std::cerr << "No OpenCL platforms found!\n";
             return SDL_APP_FAILURE;
         }
 
-        std::cout << "Platforms: \n";
-        std::string name, vendor, version;
-        for (auto& platform : platforms) {
-            printPlatform(platform, name, vendor, version);
-        }
-        
-
         std::vector<cl::Device> devices;
         platforms[0].getDevices(CL_DEVICE_TYPE_GPU, &devices);
-
         if (devices.empty()) {
-            std::cerr << "No OpenCL devices found!" << std::endl;
+            std::cerr << "No OpenCL GPU devices found!\n";
             return SDL_APP_FAILURE;
         }
 
         state->device = devices[0];
-
-        state->context = cl::Context(state->device);
+        state->context = cl::Context({ state->device });
         state->queue = cl::CommandQueue(state->context, state->device);
 
-        cl::Program program;
-        
-        try {
-            std::string ray_trace_kernel = Kernels::common_cl + "\n" + Kernels::ray_cl + "\n" + Kernels::render_cl;
+        std::string ray_trace_kernel =
+            Kernels::common_cl + "\n" + Kernels::ray_cl + "\n" + Kernels::render_cl;
 
-            program = cl::Program(state->context, ray_trace_kernel, true);
-            program.build();
-
-
-        }
-        catch (cl::Error& e) {
+        program = cl::Program(state->context, ray_trace_kernel);
+        cl_int err = program.build({ state->device });
+        if (err != CL_SUCCESS) {
             std::string buildLog = program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(state->device);
-            std::cout << "Build log:\n" << buildLog << std::endl;
+            std::cerr << "Build failed:\n" << buildLog << std::endl;
             return SDL_APP_FAILURE;
         }
+
         state->kernel = cl::Kernel(program, "ray_trace");
 
         initBuffers(state);
-        std::cout << "OpenCL initialized successfully!" << std::endl;
-
+        std::cout << "OpenCL initialized successfully!\n";
     }
-    catch (const cl::Error& e) {
-        std::cerr << "OpenCL error: " << e.what() << " (" << e.err() << ")" << std::endl;
+    catch (cl::Error& e) {
+        if (e.err() == CL_BUILD_PROGRAM_FAILURE && program()) {
+            std::string log = program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(state->device);
+            std::cerr << "Build log:\n" << log << std::endl;
+        } else {
+            std::cerr << "OpenCL error: " << e.what() << " (" << e.err() << ")\n";
+        }
         return SDL_APP_FAILURE;
     }
-    *appstate = state;
 
+    *appstate = state;
     return SDL_APP_CONTINUE;
 }
+
 
 SDL_AppResult SDL_AppIterate(void* appstate){
 

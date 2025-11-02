@@ -77,7 +77,7 @@ inline float3 rayColor(const ray r, float ray_tmin, float ray_tmax, __constant s
         if(!hitSomething(currentRay, ray_tmin, ray_tmax, &rec, spheresPointer, numSpheres)){
 
             float3 unit_direction = normalize(currentRay.m_dir);
-            float a = 0.5 * (unit_direction.y + 1.0);
+            float a = 0.5f * (unit_direction.y + 1.0f);
             return color * ((float3)(1.0f, 1.0f, 1.0f) * (1.0f - a) + (float3)(0.5f, 0.7f, 1.0f) * a);
 
         }
@@ -86,10 +86,10 @@ inline float3 rayColor(const ray r, float ray_tmin, float ray_tmax, __constant s
             currentRay = ray_new(rec.P, dir);
 
             if(rec.objID == 1){
-                color *= (float3)(0.2, 0.5, 0);
+                color *= (float3)(0.2f, 0.5f, 0.0f);
             }
             else if (rec.objID == 2){
-                color *= 0.5;
+                color *= 0.5f;
             }
         }
     }
