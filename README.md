@@ -11,7 +11,8 @@ This is a learning project! It's not optimized whatsoever and may contain bugs, 
 
 ## Preview for now
 
-https://github.com/user-attachments/assets/5ccba220-dcde-4cde-b0c9-9b12bcaee2d0
+https://github.com/user-attachments/assets/1e04a456-9205-49bf-8ddf-8b267fe4a761
+
 
 ## Features
 
