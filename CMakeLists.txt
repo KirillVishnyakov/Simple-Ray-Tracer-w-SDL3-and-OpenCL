@@ -52,7 +52,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(OpenCLICDLoader)
 
-target_link_libraries(RayTracer PRIVATE OpenCL)
+target_link_libraries(RayTracer PRIVATE OpenCL::OpenCL)
 
 # Handle OpenCL kernels - embed them as strings
 add_custom_command(
