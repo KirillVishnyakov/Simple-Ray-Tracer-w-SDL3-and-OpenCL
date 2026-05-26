@@ -6,7 +6,7 @@ https://raytracing.github.io/books/RayTracingInOneWeekend.html
 
 ## Disclaimer
 
-This is a learning project! It's not optimized whatsoever and may contain bugs, inefficiencies, or unexpected behavior. I've only tested this on systems with AMD processors/GPUs.
+This is a learning project! It's not optimized whatsoever and may contain bugs, inefficiencies, or unexpected behavior. I've only tested this on systems with AMD processors/GPUs. This project is also only compatible with windows.
 
 
 ## Preview for now
