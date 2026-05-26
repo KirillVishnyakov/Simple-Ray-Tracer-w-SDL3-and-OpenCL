@@ -25,13 +25,9 @@ https://github.com/user-attachments/assets/1e04a456-9205-49bf-8ddf-8b267fe4a761
 * Progressive rendering with accumulating samples
 
 ## Prerequisites
-CMake (version 3.15 or higher)
+* CMake (version 3.15 or higher)
 
-C++17 compatible compiler
-
-* OpenCL SDK (AMD, NVIDIA, or Intel)
-
-* SDL3 library
+* C++17 compatible compiler
 
 * GPU with OpenCL support
 
@@ -40,23 +36,10 @@ C++17 compatible compiler
 ```
 git clone https://github.com/KirillVishnyakov/Simple-Ray-Tracer-w-SDL3-and-OpenCL.git
 cd Simple-Ray-Tracer-w-SDL3-and-OpenCL
-mkdir build
-cd build
-```
-#### If libraries are installed in standard locations (SDL3 and openCL)
-`cmake ..`
-#### If libraries are in custom locations, example:
-`cmake .. -DCMAKE_PREFIX_PATH="C:/OpenCL/OpenCL-SDK/install;C:/SDL3"`
-#### create exe for config or release
-```
-cmake --build . --config Release  
-cmake --build . --config Debug
-``` 
-
-#### or cd Debug
-```
-cd Release 
-./RayTracer.exe
+cmake -B build  
+cmake --build build --config Release
+cd build/Release/
+RayTracer.exe
 ```
 
 
