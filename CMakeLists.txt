@@ -15,15 +15,44 @@ target_include_directories(RayTracer PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-
 # Find SDL3
-find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3-shared)
+include(FetchContent)
+
+FetchContent_Declare(
+    SDL3
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+    GIT_TAG release-3.2.0 
+)
+FetchContent_MakeAvailable(SDL3)
 target_link_libraries(RayTracer PRIVATE SDL3::SDL3)
 
-# Find OpenCL
-find_package(OpenCL REQUIRED)
-target_include_directories(RayTracer PRIVATE ${OpenCL_INCLUDE_DIRS})
-target_link_libraries(RayTracer PRIVATE ${OpenCL_LIBRARIES})
+# OpenCL Headers
+FetchContent_Declare(
+    OpenCLHeaders
+    GIT_REPOSITORY https://github.com/KhronosGroup/OpenCL-Headers.git
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(OpenCLHeaders)
+
+# Only download what I need (opencl.hpp), and not the full repo
+file(DOWNLOAD
+    https://raw.githubusercontent.com/KhronosGroup/OpenCL-CLHPP/main/include/CL/opencl.hpp
+    ${CMAKE_BINARY_DIR}/include/CL/opencl.hpp
+)
+
+target_include_directories(RayTracer PRIVATE
+    ${openclheaders_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}/include
+)
+
+FetchContent_Declare(
+    OpenCLICDLoader
+    GIT_REPOSITORY https://github.com/KhronosGroup/OpenCL-ICD-Loader.git
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(OpenCLICDLoader)
+
+target_link_libraries(RayTracer PRIVATE OpenCL)
 
 # Handle OpenCL kernels - embed them as strings
 add_custom_command(
